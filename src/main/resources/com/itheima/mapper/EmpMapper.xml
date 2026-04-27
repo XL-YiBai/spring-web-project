@@ -6,9 +6,17 @@
 
     <select id="list" resultType="com.itheima.pojo.Emp">
         select e.*, d.name deptName from emp e left join dept d on e.dept_id = d.id
-        where e.name like concat('%', #{name}, '%')
-          and e.gender = #{gender}
-          and e.entry_date between #{begin} and #{end}
+        <where>
+            <if test="name != null and name != ''">
+                e.name like concat('%', #{name}, '%')
+            </if>
+            <if test="gender != null">
+                and e.gender = #{gender}
+            </if>
+            <if test="begin != null and end != null">
+                and e.entry_date between #{begin} and #{end}
+            </if>
+        </where>
         order by e.update_time desc
     </select>
 </mapper>
