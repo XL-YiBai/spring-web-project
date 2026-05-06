@@ -14,4 +14,9 @@ public interface EmpExprMapper {
      * 批量保存员工的经历
      */
     void insertBatch(List<EmpExpr> exprList);
+
+    /**
+     * 根据员工ID批量删除员工的工作经历
+     */
+    void deleteByEmpIds(List<Integer> empIds);
 }

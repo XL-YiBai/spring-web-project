@@ -23,3 +23,10 @@ mybatis:
 logging:
   level:
     org.springframework.jdbc.support.JdbcTransactionManager: debug
+
+# 模拟阿里云 OSS 配置，可以将灵活变化的参数放在配置文件，然后通过 @Value 注解去注入这些变量
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-ai
+    region: cn-beijing

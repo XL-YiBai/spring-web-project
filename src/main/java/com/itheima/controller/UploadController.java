@@ -15,8 +15,8 @@ import java.util.UUID;
 public class UploadController {
 
     @PostMapping("/upload")
-    public Result upload(String name, Integer age, MultipartFile file) throws IOException {
-        log.info("接收参数：{},{},{}", name, age, file);
+    public Result upload(MultipartFile file) throws IOException {
+        log.info("接收参数：{}", file);
         // 获取原始的文件名
         String originalFilename = file.getOriginalFilename();
 
@@ -26,4 +26,5 @@ public class UploadController {
         file.transferTo(new File("/Users/xialei/Desktop/后端/java learning/web-ai-project/file/" + newFileName));
         return Result.success();
     }
+
 }
