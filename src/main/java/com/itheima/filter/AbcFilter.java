@@ -1,3 +1,4 @@
+// 项目中多个过滤器会形成过滤器链
 // 存在多个过滤器时，会默认按照过滤器类名排序，成为一个过滤器链，所以先进入 AbcFilter 再进入 DemoFilter
 package com.itheima.filter;
 
