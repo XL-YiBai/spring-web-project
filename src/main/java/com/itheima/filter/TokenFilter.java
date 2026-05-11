@@ -1,6 +1,8 @@
 package com.itheima.filter;
 
+import com.itheima.utils.CurrentHolder;
 import com.itheima.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +19,8 @@ public class TokenFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        log.info("此时的id:{}", CurrentHolder.getCurrentId());
 
         // 1. 获取到请求路径
         String requestURI = request.getRequestURI(); // 例如 "/employee/login"
@@ -40,7 +44,10 @@ public class TokenFilter implements Filter {
 
         // 5. 如果 token 存在，校验令牌，如果校验失败 -> 返回错误信息（响应401）
         try {
-            JwtUtils.parseToken(token);
+            Claims claims = JwtUtils.parseToken(token);
+            Integer empId = Integer.valueOf(claims.get("id").toString());
+            CurrentHolder.setCurrentId(empId); // 存入
+            log.info("当前登录员工ID: {}, 将其存入 ThreadLocal", empId);
         } catch (Exception e) {
             log.info("令牌非法，响应401");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -50,5 +57,8 @@ public class TokenFilter implements Filter {
         // 6. 校验通过，放行
         log.info("令牌合法，放行");
         filterChain.doFilter(request, response);
+
+        // 7. 执行完之后，删除 ThreadLocal 中的数据
+        CurrentHolder.remove();
     }
 }

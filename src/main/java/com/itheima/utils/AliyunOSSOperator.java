@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AliyunOSSOperator {
 
+    public AliyunOSSOperator(AliyunOSSProperties aliyunOSSProperties) {}
+
 //    // 方式一：可以通过 Spring 的 Value 注解，一个个获取在 application.yml 配置的变量内容
 //    @Value("${aliyun.oss.endpoint}")
 //    private String endpoint;
